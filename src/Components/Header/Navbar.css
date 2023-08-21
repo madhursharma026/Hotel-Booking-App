@@ -1,0 +1,31 @@
+.headerList {
+    gap: 40px;
+    display: flex;
+}
+
+.headerListItem {
+    gap: 10px;
+    display: flex;
+    color: white;
+    align-items: center;
+}
+
+.headerListItem.active {
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid white;
+}
+
+.headerListAfterLGScrn {
+    display: none;
+}
+
+@media (max-width: 991px) {
+    .headerList {
+        display: none;
+    }
+
+    .headerListAfterLGScrn {
+        display: block;
+    }
+}

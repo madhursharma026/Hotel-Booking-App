@@ -1,0 +1,23 @@
+.imgContainer {
+    position: relative;
+    color: white;
+}
+
+.imgData {
+    border-radius: 10px;
+    max-height: 300px;
+    height: 100%;
+}
+
+.bottomLeft {
+    position: absolute;
+    bottom: 8px;
+    left: 16px;
+    font-size: 36px;
+}
+
+.propertyTypeImg{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 200px;
+}
