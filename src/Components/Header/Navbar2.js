@@ -17,7 +17,7 @@ function Navbar2() {
                 fetch(`https://test.api.amadeus.com/v1/reference-data/locations/hotels/by-city?cityCode=${data.response.cities_by_airports[0].city_code}&radius=100&radiusUnit=KM&amenities=BUSINESS_CENTER&hotelSource=ALL`, {
                     method: "GET",
                     headers: {
-                        "Authorization": "Bearer IipdmUqSgGf9M8KvgSX8gbxrvDEC",
+                        "Authorization": "Bearer XiMhWinR2LY4bkV9OV8n8F39tEdD",
                     },
                     mode: "cors",
                     catch: "default"

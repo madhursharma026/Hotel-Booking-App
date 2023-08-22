@@ -1,15 +1,32 @@
 import "../Style/Hotel.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar1 from "../Components/Header/Navbar1";
 import { useLocation, useNavigate } from 'react-router-dom';
 
 function Hotel() {
   const history = useLocation();
   const [open, setOpen] = useState(false);
-  let hotelDetails = history.state.data.data[0];
+  const [hotelDetails, setHotelDetails] = useState([]);
+
+  useEffect(() => {
+    if (history.state !== null) {
+      let orderId = `${history.state.data.data[0].offers[0].id}`
+
+      fetch(`https://test.api.amadeus.com/v3/shopping/hotel-offers/${orderId}`, {
+        method: "GET",
+        headers: {
+          "Authorization": "Bearer XiMhWinR2LY4bkV9OV8n8F39tEdD",
+        },
+        mode: "cors",
+        catch: "default"
+      })
+        .then(resp => resp.json())
+        .then(data => setHotelDetails(data.data))
+    }
+  }, [])
   const [slideNumber, setSlideNumber] = useState(0);
 
-  console.log(hotelDetails)
+  console.log(hotelDetails.hotel.name)
 
   const photos = [
     {
@@ -52,6 +69,7 @@ function Hotel() {
   return (
     <div>
       <Navbar1 />
+      {/* {(hotelDetails !== []) ? */}
       <div className="container-lg mt-3">
         {open && (
           <div className="slider">
@@ -63,18 +81,20 @@ function Hotel() {
         <div className="hotelWrapper">
           <h1 className="hotelTitle">{hotelDetails.hotel.name}</h1>
           <h5>
-            <b>Latitude</b>: {hotelDetails.hotel.latitude} • <b>Longitude</b>: {hotelDetails.hotel.longitude}
+            Address: {hotelDetails.hotel.cityCode} • {hotelDetails.hotel.address.stateCode} • {hotelDetails.hotel.address.countryCode}
           </h5>
           <img src="https://cf.bstatic.com/xdata/images/hotel/max1280x900/261707778.jpg?k=56ba0babbcbbfeb3d3e911728831dcbc390ed2cb16c51d88159f82bf751d04c6&o=&hp=1" alt="#ImgNotFound" className="w-100 mt-4" style={{ maxHeight: '400px', objectFit: "cover" }} />
           <div className="hotelDetails">
             <div className="hotelDetailsTexts">
               <h3 className="hotelTitle">Stay in the heart of City</h3>
               <h4 className="hotelDesc">
-                {hotelDetails.offers[0].room.description.text}
+                {hotelDetails.offers[0].description.text}
               </h4>
             </div>
             <div className="hotelDetailsPrice">
-              <h1>Bed Type: {hotelDetails.offers[0].room.typeEstimated.bedType}</h1>
+              <h1>Amenities: {hotelDetails.hotel.amenities[0]}</h1>
+              <h1>Room Type: {hotelDetails.offers[0].room.type} {hotelDetails.offers[0].room.description.text}</h1>
+              <h1>Cancellations Policies: {hotelDetails.offers[0].policies.cancellations[0].deadline}</h1>
               <h2>
                 <b>₹ {hotelDetails.offers[0].price.total}</b>
               </h2>
@@ -83,6 +103,11 @@ function Hotel() {
           </div>
         </div>
       </div>
+      {/* :
+        <h1 className="text-center pt-5 mt-5">
+          No Data Found!
+        </h1>
+      } */}
     </div>
   );
 };
